@@ -7,25 +7,25 @@ struct ListNode {
   };
  
 class Solution {
-    const int DUMMY = 100009;
-
 public:
     bool hasCycle(ListNode* head) {
-        ListNode* now = head;
-        while (1) {
-            if (now->next == NULL) {
-                return false;
-            }
-            if (now->next->val == DUMMY) {
-                return true;
-            }
-            now->val = DUMMY;
-            now = now->next;
+        if (head == NULL) return false;
+
+        ListNode* slow = head;
+        ListNode* fast = head->next;
+
+        while (fast != slow) {
+            if (slow == NULL) return false;
+            if (fast == NULL) return false;
+            else if (fast->next == NULL) return false;
+
+            slow = slow->next;
+            fast = fast->next->next;
         }
+
         return true;
     }
 };
-
 
 
 
