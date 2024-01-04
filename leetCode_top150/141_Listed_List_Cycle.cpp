@@ -15,7 +15,6 @@ public:
         ListNode* fast = head->next;
 
         while (fast != slow) {
-            if (slow == NULL) return false;
             if (fast == NULL) return false;
             else if (fast->next == NULL) return false;
 
