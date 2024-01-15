@@ -1,10 +1,10 @@
 class Solution {
 public:
-    vector<int> vals;
+    vector<int> vals; int sz = 0;
 
     void func(TreeNode* root, int depth) {
-        if (depth >= vals.size()) {
-            vals.push_back(root->val);
+        if (depth >= sz) {
+            vals.push_back(root->val); sz++;
         }
 
         if (root->right != nullptr) func(root->right, depth + 1);
