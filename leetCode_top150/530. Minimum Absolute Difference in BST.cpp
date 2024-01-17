@@ -1,24 +1,35 @@
 class Solution {
+private:
+    static const int maxGap = 100001;
+
+    struct p {
+        TreeNode* node;
+        int minGap = maxGap;
+    };
+
 public:
     int getMinimumDifference(TreeNode* root) {
-        int minGap = 1000000;
-        queue<TreeNode*> q;
-        q.push(root);
+        int MinGap = maxGap;
+        queue<p> q;
+        q.push({ root, maxGap });
 
         while (!q.empty()) {
-            auto curV = q.front();  q.pop();
+            auto curP = q.front(); q.pop();
 
-            if (curV->left != nullptr) {
-                minGap = min(minGap, curV->val - curV->left->val);
-                q.push(curV->left);
+            if (curP.node->left != nullptr) {
+                int leftGap = curP.node->val - curP.node->left->val;
+                q.push({ curP.node->left, min(leftGap, leftGap + curP.minGap) });
             }
-            if (curV->right != nullptr) {
-                minGap = min(minGap, curV->right->val - curV->val);
-                q.push(curV->right);
+            if (curP.node->right != nullptr) {
+                int rightGap = curP.node->right->val - curP.node->val;
+                q.push({ curP.node->right, min(rightGap, rightGap + curP.minGap) });
             }
 
-            if (minGap == 0) return 0;
+            if (curP.node->left == nullptr && curP.node->right == nullptr) {
+                MinGap = min(MinGap, abs(curP.minGap));
+            }
         }
-        return minGap;
+
+        return MinGap;
     }
 };
