@@ -1,3 +1,4 @@
+
 class Solution {
 private:
     static const int maxGap = 100001;
@@ -16,8 +17,13 @@ public:
         while (!q.empty()) {
             auto curP = q.front(); q.pop();
 
+            if (curP.node->left == nullptr && curP.node->right == nullptr) {
+                MinGap = min(MinGap, abs(curP.minGap));
+                continue;
+            }
+
             if (curP.node->left != nullptr) {
-                int leftGap = curP.node->val - curP.node->left->val;
+                int leftGap = curP.node->left->val - curP.node->val;
                 if (abs(leftGap) < abs(leftGap + curP.minGap))
                     q.push({ curP.node->left, leftGap });
                 else
@@ -29,10 +35,6 @@ public:
                     q.push({ curP.node->right, rightGap });
                 else
                     q.push({ curP.node->right, rightGap + curP.minGap });
-            }
-
-            if (curP.node->left == nullptr && curP.node->right == nullptr) {
-                MinGap = min(MinGap, abs(curP.minGap));
             }
         }
 
