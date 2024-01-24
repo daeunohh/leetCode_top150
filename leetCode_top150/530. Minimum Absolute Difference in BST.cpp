@@ -1,51 +1,49 @@
+
 class Solution {
 private:
     static const int maxGap = 100001;
     int MinGap = maxGap;
 
-    struct p {
-        TreeNode* node;
-        int minGap = maxGap;
-    };
-
 public:
-    void func(TreeNode* node, int minGap) {
-        MinGap = min(MinGap, abs(minGap));
+    TreeNode* getNearestNode_Left(TreeNode* root) {
+        root = root->left;
 
-        if (node->left != nullptr) {
-            int leftGap = node->left->val - node->val;
-            func(node->left, leftGap);
-            func(node->left, leftGap + minGap);
+        while (root->right != nullptr) {
+            root = root->right;
         }
-        if (node->right != nullptr) {
-            int rightGap = node->right->val - node->val;
-            func(node->right, rightGap);
-            func(node->right, rightGap + minGap);
-        }
+
+        return root;
     }
 
+    TreeNode* getNearestNode_Right(TreeNode* root) {
+        root = root->right;
+
+        while (root->left != nullptr) {
+            root = root->left;
+        }
+
+        return root;
+    }
 
     int getMinimumDifference(TreeNode* root) {
-        func(root, maxGap);
-
-        /*queue<p> q;
-        q.push({ root, maxGap });
+        queue<TreeNode*> q;
+        q.push({ root });
 
         while (!q.empty()) {
-            auto curP = q.front(); q.pop();
-            MinGap = min(MinGap, abs(curP.minGap));
+            auto cur = q.front(); q.pop();
 
-            if (curP.node->left != nullptr) {
-                int leftGap = curP.node->left->val - curP.node->val;
-                q.push({ curP.node->left, leftGap });
-                q.push({ curP.node->left, leftGap + curP.minGap });
+            if (cur->left != nullptr) {
+                auto minGapL = cur->val - getNearestNode_Left(cur)->val;
+                MinGap = min(MinGap, minGapL);
+                q.push(cur->left);
             }
-            if (curP.node->right != nullptr) {
-                int rightGap = curP.node->right->val - curP.node->val;
-                q.push({ curP.node->right, rightGap });
-                q.push({ curP.node->right, rightGap + curP.minGap });
+            if (cur->right != nullptr) {
+                auto minGapR = getNearestNode_Right(cur)->val - cur->val;
+                MinGap = min(MinGap, minGapR);
+                q.push(cur->right);
             }
-        }*/
+
+        }
 
         return MinGap;
     }
