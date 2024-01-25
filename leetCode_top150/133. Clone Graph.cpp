@@ -3,7 +3,7 @@ public:
     vector<Node*> nodeMap;
 
     Solution() {
-        nodeMap.assign(100, nullptr);
+        nodeMap.assign(101, nullptr);
     }
 
     Node* getCloneNode(Node* prevNode) {
