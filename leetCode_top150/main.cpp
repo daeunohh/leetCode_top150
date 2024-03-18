@@ -1,93 +1,50 @@
 #include "main.h"
+#include <queue>
 
-class Trie {
+
+
+class Solution {
 public:
-    
-    struct Node {
-        char c;
-        bool isEnd = false;
-        vector<Node*> leafs;
+    queue<string> q;
+    vector<string> itoc;
 
-        Node(char _c) : c(_c) { }
-    };
-
-    Node* root;
-
-    Trie() {
-        root = new Node(0);
+    Solution() {
+        itoc.assign(10, "");
+        itoc[2] = "abc";
+        itoc[3] = "def";
+        itoc[4] = "ghi";
+        itoc[5] = "jkl";
+        itoc[6] = "mno";
+        itoc[7] = "pqrs";
+        itoc[8] = "tuv";
+        itoc[9] = "wxyz";
     }
 
-    void insert(string word) {
-        Node* current = root;
-        for (int i = 0; i < word.size(); i++) {
-            Node* nextNode = getNextNode(current->leafs, word[i]);
+    vector<string> letterCombinations(string digits) {
+        vector<string> ret;
+        
+        for (char c : itoc[digits[0] - '0']) {
+            q.push((c));
+        }
 
-            if (nextNode == nullptr) {
-                nextNode = new Node(word[i]);
-                current->leafs.push_back(nextNode);
+        while (!q.empty()) {
+            string str = q.front(); q.pop();
+            if (str.length() == digits.length()) {
+                ret.push_back(str);
             }
-
-            current = nextNode;
+            else {
+                for (char c : itoc[digits[str.length()] - '0']) {
+                    string newString = str + c;
+                    q.push(newString);
+                }
+            }
         }
-        current->isEnd = true;
-    }
- 
-    Node* getNextNode(vector<Node*>& leafs, char& c) {
-        for (Node* leaf : leafs) {
-            if (leaf->c == c) return leaf;
-        }
-        return nullptr;
-    }
 
-    bool search(string word) {
-        Node* current = root;
-        for (int i = 0; i < word.size(); i++) {
-            Node* nextNode = getNextNode(current->leafs, word[i]);
-
-            if (nextNode == nullptr) return false;
-            current = nextNode;
-        }
-        return current->isEnd;
-    }
-
-    bool startsWith(string prefix) {
-        Node* current = root;
-        for (int i = 0; i < prefix.size(); i++) {
-            Node* nextNode = getNextNode(current->leafs, prefix[i]);
-
-            if (nextNode == nullptr) return false;
-            current = nextNode;
-        }
-        return true;
+        return ret;
     }
 };
 
 void main() {
-    Trie* obj = new Trie();
-    obj->insert("word");
-    obj->insert("was");
-    obj->insert("wor");
-    obj->root;
-
-    cout << obj->search("wa") << endl;
-    cout << obj->search("wor") << endl;
-    cout << obj->search("worrrr") << endl;
-
-    cout << obj->startsWith("wa") << endl;
-    cout << obj->startsWith("wor") << endl;
-    cout << obj->startsWith("t") << endl;
-
-    return;
-
+    Solution s;
+    s.letterCombinations("23");
 }
-
-/**
- * Your Trie object will be instantiated and called as such:
- * 
- * 
- * bool param_2 = obj->search(word);
- * bool param_3 = obj->startsWith(prefix);
- */
-
-
-
