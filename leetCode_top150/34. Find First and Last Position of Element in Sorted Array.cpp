@@ -1,53 +1,46 @@
-
-
 class Solution {
 public:
+    int findLeft(vector<int>& nums, int n, int target) {
+        int l = 0, r = n - 1, left_idx = -1;
+        while (l <= r) {
+            int mid = l + (r - l) / 2;
+            if (nums[mid] == target) {
+                r = mid - 1;
+                left_idx = mid;//possibly my answer
+            }
+            else if (nums[mid] < target)
+                l = mid + 1;
+            else
+                r = mid - 1;
+        }
+        return left_idx;
+    }
+    int findRight(vector<int>& nums, int n, int target) {
+        int l = 0, r = n - 1, right_idx = -1;
+        while (l <= r) {
+            int mid = l + (r - l) / 2;
+            if (nums[mid] == target) {
+                l = mid + 1;
+                right_idx = mid;//possibly my answer
+            }
+            else if (nums[mid] < target)
+                l = mid + 1;
+            else
+                r = mid - 1;
+        }
+        return right_idx;
+    }
     vector<int> searchRange(vector<int>& nums, int target) {
-        if (nums.size() == 0) return { -1, -1 };
+        int n = nums.size();
+        //onlt search the left part
+        int left_most = findLeft(nums, n, target);
 
-        int retStart = -1; int retEnd = -1;
-        {
-            int start = 0; int end = nums.size() - 1;
-            int mid = 0;
+        //search only the right part
+        int right_most = findRight(nums, n, target);
 
-            while (start <= end) {
-                mid = (end + start) / 2;
-                if (nums[mid] == target) {
-                    if (mid == 0 || nums[mid - 1] != target) {
-                        retStart = mid; break;
-                    }
-                }
-                if (nums[mid] >= target) {
-                    end = mid - 1;
-                }
-                else {
-                    start = mid + 1;
-                }
-            }
-        }
-        {
-            int start = 0; int end = nums.size() - 1;
-            int mid = 0;
-
-            while (start <= end) {
-                mid = (end + start) / 2;
-                if (nums[mid] == target) {
-                    if (mid == nums.size() - 1 || nums[mid + 1] != target) {
-                        retEnd = mid; break;
-                    }
-                }
-                if (nums[mid] > target) {
-                    end = mid - 1;
-                }
-                else {
-                    start = mid + 1;
-                }
-            }
-        }
-
-        if (retStart != -1 && retEnd != -1) return { retStart, retEnd };
-
-
-        return { -1, -1 };
+        vector<int>res;
+        res.push_back(left_most);
+        res.push_back(right_most);
+        return res;
     }
 };
