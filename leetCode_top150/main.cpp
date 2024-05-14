@@ -1,15 +1,22 @@
 class Solution {
 public:
-    int findKthLargest(std::vector<int>& nums, int k) {
-        std::priority_queue<int, std::vector<int>, std::greater<int>> min_heap(nums.begin(), nums.begin() + k);
 
-        for (int i = k; i < nums.size(); i++) {
-            if (nums[i] > min_heap.top()) {
-                min_heap.pop();
-                min_heap.push(nums[i]);
-            }
+    class Heap{
+        struct Node{
+            int value;
+            Node* left= nullptr;
+            Node* right = nullptr;
+        };
+
+        Node* head = nullptr;
+
+        Heap(int val){
+            head = new Node();
+            head->value = val;
         }
+    }
 
-        return min_heap.top();
+    vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
+        
     }
 };
