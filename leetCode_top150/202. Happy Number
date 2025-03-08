@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool isHappy(int n) {
+        set<int> inLoop;
+
+        while(1){
+            vector<int> digits;
+            while(n > 0){
+                digits.push_back(n % 10);
+                n = n / 10;
+            }
+
+            int newn = 0;
+            for(int digit : digits){
+                newn += digit * digit;
+            }
+            
+            if(newn == 1) return true;
+            if(inLoop.find(newn) != inLoop.end()) return false;
+            inLoop.insert(newn);
+
+            n = newn;
+        }
+        return false;
+    }
+};
