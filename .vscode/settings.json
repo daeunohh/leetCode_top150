@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "initializer_list": "cpp",
+        "iterator": "cpp"
     }
 }
