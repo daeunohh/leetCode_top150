@@ -1,5 +1,5 @@
 # Time: encode: N, decode:N
-# Space: 
+# Space: N, N
 class Solution:
     def encode(self, strs: List[str]) -> str:
         header = ",".join(str(len(s)) for s in strs) + ","
